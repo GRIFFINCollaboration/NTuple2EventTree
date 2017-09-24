@@ -7,19 +7,22 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TRandom3.h"
-#include "TH1F.h"
-#include "TH2F.h"
-#include "TH3F.h"
-//#include "TH3I.h"
-#include "THnSparse.h"
 #include "TVector3.h"
 
+#include "TChannel.h"
+#include "TFragment.h"
+#include "TGriffin.h"
+#include "TBgo.h"
+#include "TSceptar.h"
+#include "TPaces.h"
+#include "TLaBr.h"
+#include "TDescant.h"
+
 #include "Settings.hh"
-#include "Griffin.hh"
 
 class Converter {
 public:
-    Converter(std::vector<std::string>&, const std::string&, Settings*);
+    Converter(std::vector<std::string>&, const std::string&, Settings*, bool);
     ~Converter();
 
     bool Run();
@@ -29,51 +32,7 @@ private:
     bool InsideTimeWindow();
     bool DescantNeutronDiscrimination();
 
-    // GRIFFIN
-    void CheckGriffinCrystalAddback();
-    void SupressGriffin();
-    void SupressGriffinByNeighbouringAncillaryBgos();
-    void SupressGriffinBySceptar();
-    void AddbackGriffin();
-    void AddbackGriffinNeighbour();
-    void AddbackGriffinNeighbourVector();
-    // LaBr
-    void CheckLaBrDetectorAddback();
-    void SupressLaBr();
-    void SupressLaBrByNeighbouringGriffinShields();
-    void AddbackLaBr();
-    // EightPi
-    void CheckEightPiDetectorAddback();
-    void SupressEightPi();
-    void AddbackEightPi();
-    // Ancillary BGO
-    void CheckAncillaryBgoCrystalAddback();
-    void AddbackAncillaryBgo();
-    // SCEPTAR
-    void CheckSceptarDetectorAddback();
-    void AddbackSceptar();
-    // DESCANT
-    void CheckDescantDetectorAddback();
-    void AddbackDescant();
-    // Paces
-    void CheckPacesDetectorAddback();
-    void AddbackPaces();
-
     void PrintStatistics();
-
-    TH1F* Get1DHistogram(std::string, std::string);
-    TH2F* Get2DHistogram(std::string, std::string);
-    //TH3I* Get3DHistogram(std::string, std::string);
-    THnSparseF* GetNDHistogram(std::string, std::string);
-
-    void FillHistDetector1DGamma(TH1F* hist1D, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir);
-    void FillHistDetector2DGammaGamma(TH2F* hist2D, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir);
-
-    void FillHistDetector1DGammaNR(TH1F* hist1D, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir);
-    void FillHistDetector2DGammaGammaNR(TH2F* hist2D, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir);
-
-    void FillHist2DGriffinSceptarHitPattern(TH2F* hist2D, std::vector<Detector>* detector1, std::vector<Detector>* detector2, std::string hist_name, std::string hist_dir);
-    void FillHist2DGriffinHitPattern(TH2F* hist2D, std::vector<Detector>* detector, std::string hist_name, std::string hist_dir);
 
     TVector3 GriffinCrystalCenterPosition(int cry, int det);
     bool AreGriffinCrystalCenterPositionsWithinVectorLength(int cry1, int det1, int cry2, int det2);
@@ -85,7 +44,11 @@ private:
     Settings* fSettings;
     TChain fChain;
     TFile* fOutput;
-    TTree fTree;
+    TTree fEventTree;
+	 TFragment* fFragment;
+	 bool fWriteFragmentTree;
+	 TTree fFragmentTree;
+	 int fFragmentTreeEntries;
     TRandom3 fRandom;
 
     Int_t LaBrGriffinNeighbours_det[8][3];
@@ -125,50 +88,23 @@ private:
     Double_t fPosz;
     Double_t fTime;
 
-    bool   fSceptarHit;
-
     //branches of output tree
     // GRIFFIN
-    std::vector<Detector>* fGriffinCrystal;
-    std::vector<Detector>* fGriffinDetector;
-    std::vector<Detector>* fGriffinNeighbour;
-    std::vector<Detector>* fGriffinNeighbourVector;
-    std::vector<Detector>* fGriffinArray;
-    std::vector<Detector>* fGriffinBgo;
-    std::vector<Detector>* fGriffinBgoBack;
+	 TGriffin* fGriffin;
+
+	 // BGO
+	 TBgo* fBgo;
 
     // LaBr
-    std::vector<Detector>* fLaBrArray;
-    std::vector<Detector>* fLaBrDetector;
-
-    // EightPi
-    std::vector<Detector>* fEightPiArray;
-    std::vector<Detector>* fEightPiDetector;
-    std::vector<Detector>* fEightPiBgoDetector;
-
-    // Ancillary BGO
-    std::vector<Detector>* fAncillaryBgoArray;
-    std::vector<Detector>* fAncillaryBgoCrystal;
-    std::vector<Detector>* fAncillaryBgoDetector;
+	 TLaBr* fLaBr;
 
     // Sceptar
-    std::vector<Detector>* fSceptarArray;
-    std::vector<Detector>* fSceptarDetector;
+	 TSceptar* fSceptar;
 
     // Descant
-    std::vector<Detector>* fDescantArray;
-    std::vector<Detector>* fDescantBlueDetector;
-    std::vector<Detector>* fDescantGreenDetector;
-    std::vector<Detector>* fDescantRedDetector;
-    std::vector<Detector>* fDescantWhiteDetector;
-    std::vector<Detector>* fDescantYellowDetector;
+	 TDescant* fDescant;
 
     // Paces
-    std::vector<Detector>* fPacesArray;
-    std::vector<Detector>* fPacesDetector;
-
-    //histograms
-    std::map<std::string,TList*> fHistograms;
+	 TPaces* fPaces;
 };
-
 #endif

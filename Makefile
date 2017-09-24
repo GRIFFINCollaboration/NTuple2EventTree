@@ -8,7 +8,7 @@
 
 SHELL 		= /bin/sh
 
-NAME		   = NTuple
+NAME		   = NTuple2EventTree
 
 LIB_DIR 	   = $(HOME)/lib
 
@@ -17,6 +17,12 @@ ROOTINC     := -I$(shell root-config --incdir)
 
 COMM_DIR 	= $(HOME)/CommandLineInterface
 
+GRSI_CONFIG = $(shell which grsi-config)
+
+ifeq ($(GRSI_CONFIG),)
+$(error $(GRSI_CONFIG): grsi-config not found, did you source thisgrsi.sh?)
+endif
+
 INCLUDES    = -I$(COMM_DIR) -I.
 
 LIBRARIES	= CommandLineInterface Utilities
@@ -24,15 +30,14 @@ LIBRARIES	= CommandLineInterface Utilities
 CC		      = gcc
 CXX         = g++
 CPPFLAGS 	= $(ROOTINC) $(INCLUDES) -fPIC
-CXXFLAGS	   = -std=gnu++0x -pedantic -Wall -Wno-long-long -g -O3
+CXXFLAGS	   = -std=gnu++0x -pedantic -Wall -Wno-long-long -g -O3 $(shell $(GRSI_CONFIG) --cflags)
 
 LDFLAGS		= -g -fPIC
 
-LDLIBS 		= -L$(LIB_DIR) -Wl,-rpath,/opt/gcc/lib64 $(ROOTLIBS) $(addprefix -l,$(LIBRARIES))
+LDLIBS 		= -L$(LIB_DIR) -Wl,-rpath,/opt/gcc/lib64 $(ROOTLIBS) $(addprefix -l,$(LIBRARIES)) $(shell $(GRSI_CONFIG) --libs)
 
 LOADLIBES = \
 	Converter.o \
-	Griffin.o \
 	Settings.o \
 	$(NAME)Dictionary.o
 
@@ -60,7 +65,6 @@ all:  $(NAME)
 # -------------------- Root stuff --------------------
 
 DEPENDENCIES = \
-	Griffin.hh \
 	RootLinkDef.h
 
 $(NAME)Dictionary.o: $(NAME)Dictionary.cc

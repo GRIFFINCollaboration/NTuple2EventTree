@@ -24,6 +24,8 @@ int main(int argc, char** argv) {
     interface.Add("-of","output file (default = 'Converted.root')",&outputFileName);
     int verbosityLevel = 0;
     interface.Add("-vl","verbosity level (default = 0)",&verbosityLevel);
+	 bool writeFragmentTree = false;
+	 interface.Add("-wf","write FragmentTree",&writeFragmentTree);
 
     //-------------------- check flags and arguments --------------------
     interface.CheckFlags(argc, argv);
@@ -46,7 +48,7 @@ int main(int argc, char** argv) {
     Settings settings(settingsFileName, verbosityLevel);
 
     //create converter and run
-    Converter converter(inputFileNames, outputFileName, &settings);
+    Converter converter(inputFileNames, outputFileName, &settings, writeFragmentTree);
     if(!converter.Run()) {
         std::cerr<<"processing ended abnormally!"<<std::endl;
         return 1;
