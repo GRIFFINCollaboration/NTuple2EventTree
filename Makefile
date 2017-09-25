@@ -34,7 +34,7 @@ CXXFLAGS	   = -std=gnu++0x -pedantic -Wall -Wno-long-long -g -O3 $(shell $(GRSI_
 
 LDFLAGS		= -g -fPIC
 
-LDLIBS 		= -L$(LIB_DIR) -Wl,-rpath,/opt/gcc/lib64 $(ROOTLIBS) $(addprefix -l,$(LIBRARIES)) $(shell $(GRSI_CONFIG) --libs)
+LDLIBS 		= -L$(LIB_DIR) -Wl,-rpath,/opt/gcc/lib64 $(ROOTLIBS) $(addprefix -l,$(LIBRARIES)) $(shell $(GRSI_CONFIG) --all-libs)
 
 LOADLIBES = \
 	Converter.o \
