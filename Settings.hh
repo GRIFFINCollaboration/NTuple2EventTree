@@ -12,57 +12,25 @@ public:
     Settings(std::string, int);
     ~Settings(){};
 
-    std::string NtupleName() {
-        return fNtupleName;
-    }
+    std::string NtupleName() { return fNtupleName; }
 
-    int VerbosityLevel() {
-        return fVerbosityLevel;
-    }
+    int VerbosityLevel() { return fVerbosityLevel; }
 
-    int BufferSize() {
-        return fBufferSize;
-    }
+    int BufferSize() { return fBufferSize; }
 
-    int SortNumberOfEvents() {
-        return fSortNumberOfEvents;
-    }
+    int SortNumberOfEvents() { return fSortNumberOfEvents; }
 
-    bool WriteTree() {
-        return fWriteTree;
-    }
+    bool WriteTree() { return fWriteTree; }
 
-    bool Write2DHist() {
-        return fWrite2DHist;
-    }
+	 int KValue() { return fKValue; }
 
-    //bool Write3DHist() {
-    //    return fWrite3DHist;
-    //}
+    bool WriteGriffinAddbackVector() { return fWriteGriffinAddbackVector; }
 
-    bool WriteNDHist() {
-        return fWriteNDHist;
-    }
-    
-    bool Write2DSGGHist() {
-        return fWrite2DSGGHist;
-    }
+    double GriffinAddbackVectorLengthmm() { return fGriffinAddbackVectorLengthmm; }
 
-    bool WriteGriffinAddbackVector() {
-        return fWriteGriffinAddbackVector;
-    }
+    double GriffinAddbackVectorDepthmm() { return fGriffinAddbackVectorDepthmm; }
 
-    double GriffinAddbackVectorLengthmm() {
-        return fGriffinAddbackVectorLengthmm;
-    }
-
-    double GriffinAddbackVectorDepthmm() {
-        return fGriffinAddbackVectorDepthmm;
-    }
-
-    double GriffinAddbackVectorCrystalFaceDistancemm() {
-        return fGriffinAddbackVectorCrystalFaceDistancemm;
-    }
+    double GriffinAddbackVectorCrystalFaceDistancemm() { return fGriffinAddbackVectorCrystalFaceDistancemm; }
 
     double Resolution(int systemID, int detectorID, int crystalID, double en) {
         if(fResolution.find(systemID) != fResolution.end()) {
@@ -89,25 +57,6 @@ public:
         return 0.;
     }
 
-    int NofBins(std::string directoryName) {
-        if(fNofBins.find(directoryName) != fNofBins.end()) {
-            return fNofBins[directoryName];
-        }
-        return 10000;
-    }
-    double RangeLow(std::string directoryName) {
-        if(fRangeLow.find(directoryName) != fRangeLow.end()) {
-            return fRangeLow[directoryName];
-        }
-        return 0.5;
-    }
-    double RangeHigh(std::string directoryName) {
-        if(fRangeHigh.find(directoryName) != fRangeHigh.end()) {
-            return fRangeHigh[directoryName];
-        }
-        return 10000.5;
-    }
-
 private:
     std::string fNtupleName;
 
@@ -116,10 +65,7 @@ private:
     int fSortNumberOfEvents;
 
     bool fWriteTree;
-    bool fWrite2DHist;
-    //bool fWrite3DHist;
-    bool fWriteNDHist;
-    bool fWrite2DSGGHist;
+	 int fKValue;
     bool fWriteGriffinAddbackVector;
 
     double fGriffinAddbackVectorLengthmm;
@@ -130,10 +76,6 @@ private:
     std::map<int,std::vector<std::vector<double> > > fThreshold;
     std::map<int,std::vector<std::vector<double> > > fThresholdWidth;
     std::map<int,std::vector<std::vector<double> > > fTimeWindow;
-
-    std::map<std::string,int> fNofBins;
-    std::map<std::string,double> fRangeLow;
-    std::map<std::string,double> fRangeHigh;
 };
 
 #endif
