@@ -65,3 +65,14 @@ If the event number of the hit does not match the event number of the last hit, 
 This means that the timestamp of a detector is determined by the simulation time of the last hit.
 It also doesn't yet get converted into the proper 10 ns timestamps, nor does the CFD value get set.
 
+-----------------------------------------
+ Thing to do
+-----------------------------------------
+
+- Right now the program assumes anything with system ID 1000 to be GRIFFIN detectors, though these could also be TIGRESS detectors.
+  This needs to be changed (maybe the user selects which it is via a command line flag or a setting?).
+- For SPICE the mnemonic needs to be fixed, it only uses I (the main Si(Li)) for the sub system, no array position, and no array sub position.
+- According to GRSISort and the cal-files used with it, LaBr mnemonics start with DAL, but the tigwiki says it should be LBL?
+- LaBr TACs (mnemonics DAT?) are not included at all (would need to be created from the hits at the end of an event).
+- The simulation time needs to be properly processed before being used to set the midas time, the timestamp, and the CFD time.
+- More???
