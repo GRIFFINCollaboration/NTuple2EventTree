@@ -216,7 +216,10 @@ bool Converter::Run() {
 							break;
 					}
 					if(fFragments.count(address) == 1) {
+						// add charge
 						fFragments[address].SetCharge(fFragments[address].GetCharge()+smearedEnergy*fKValue);
+						// update timestamp
+						fFragments[address].SetTimeStamp(fTime*1e8);
 					} else {
 						fFragments[address].SetAddress(address);
 						//fFragments[address].SetCcLong();
@@ -225,8 +228,9 @@ bool Converter::Run() {
 						fFragments[address].SetCharge(smearedEnergy*700);
 						fFragments[address].SetKValue(700);
 						fFragments[address].SetMidasId(fFragmentTreeEntries);
-						fFragments[address].SetMidasTimeStamp(fTime);
-						fFragments[address].SetTimeStamp(fTime);
+						// fTime is the time from the beginning of the event in seconds
+						fFragments[address].SetMidasTimeStamp(fTime); 
+						fFragments[address].SetTimeStamp(fTime*1e8);
 						//fFragments[address].SetZc();
 						++fFragmentTreeEntries;
 						//check if the channel for this address exists, and if not create one and add it to the map
