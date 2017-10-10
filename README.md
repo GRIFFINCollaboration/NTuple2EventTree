@@ -66,7 +66,7 @@ This means that the timestamp of a detector is determined by the simulation time
 It also doesn't yet get converted into the proper 10 ns timestamps, nor does the CFD value get set.
 
 -----------------------------------------
- Thing to do
+ Things to do
 -----------------------------------------
 
 - Right now the program assumes anything with system ID 1000 to be GRIFFIN detectors, though these could also be TIGRESS detectors.
