@@ -60,7 +60,7 @@ all:  $(NAME)
 # -------------------- default rule for executables --------------------
 
 %: %.cc $(LOADLIBES)
-	$(CXX) $< $(CXXFLAGS) $(CPPFLAGS) $(LOADLIBES) $(LDLIBS) -o $@
+	$(CXX) $< $(CXXFLAGS) $(CPPFLAGS) $(LOADLIBES) $(LDFLAGS) $(LDLIBS) -o $@
 
 # -------------------- Root stuff --------------------
 

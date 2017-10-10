@@ -20,7 +20,13 @@ Converter::Converter(std::vector<std::string>& inputFileNames, const int& runNum
 		}
 		//add sub-directory and tree name to file name
 		fileName->append(fSettings->NtupleName());
-		fChain.Add(fileName->c_str());
+		fChain.Add(fileName->c_str(), -1);
+	}
+
+	std::cout<<"will read from "<<fChain.GetListOfFiles()->GetEntries()<<" files"<<std::endl;
+	if(fChain.GetListOfFiles()->GetEntries() == 0) {
+		std::cout<<"no files found (maybe check tree name, settings say it's \""<<fSettings->NtupleName()<<"\"?)"<<std::endl;
+		throw;
 	}
 
 	//add branches to input chain
