@@ -102,7 +102,7 @@ Converter::Converter(std::vector<std::string>& inputFileNames, const int& runNum
 Converter::~Converter() {
 	if(fAnalysisFile->IsOpen()) {
 		fAnalysisFile->cd();
-		fEventTree.Write("EventTree");
+		fEventTree.Write("AnalysisTree");
 		fRunInfo->Write("TGRSIRunInfo");
 		TChannel::WriteToRoot();
 		fAnalysisFile->Close();
