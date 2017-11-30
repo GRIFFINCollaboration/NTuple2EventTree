@@ -317,11 +317,11 @@ bool Converter::Run() {
 void Converter::FillDetectors() {
 	for(auto frag : fFragments) {
 		if(fWriteFragmentTree) {
-			*fFragment = std::make_shared<TFragment>(frag.second);
+			*fFragment = frag.second;
 			fFragmentTree.Fill();
 		}
-		TChannel* channel = TChannel::GetChannel(std::make_shared<TFragment>(frag.second).GetAddress());
-		switch(std::make_shared<TFragment>(frag.second).GetAddress()/1000) {
+		TChannel* channel = TChannel::GetChannel(frag.second.GetAddress());
+		switch(frag.second.GetAddress()/1000) {
 			//mapping systems to address ranges: 0 - GRIFFIN, 1 - BGO, 2 - LaBr, 3 - ancilliary BGO, 4 - NaI, 5 - SCEPTAR, 6 - SPICE, 7 - PACES, 8 - DESCANT
 			case 0:
 				fGriffin->AddFragment(std::make_shared<TFragment>(frag.second), channel);
