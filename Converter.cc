@@ -324,7 +324,7 @@ void Converter::FillDetectors() {
 		switch(frag.second.GetAddress()/1000) {
 			//mapping systems to address ranges: 0 - GRIFFIN, 1 - BGO, 2 - LaBr, 3 - ancilliary BGO, 4 - NaI, 5 - SCEPTAR, 6 - SPICE, 7 - PACES, 8 - DESCANT
 			case 0:
-				fGriffin->AddFragment(frag.second, channel);
+				fGriffin->AddFragment(std::make_shared<TFragment>(frag.second), channel);
 				if(fSettings->VerbosityLevel() > 2) {
 					std::cout<<"Added fragment "<<fFragment<<" to griffin:"<<std::endl;
 					fFragment->Print();
@@ -332,35 +332,35 @@ void Converter::FillDetectors() {
 				break;
 			case 1:
 			case 3:
-				fBgo->AddFragment(frag.second, channel);
+				fBgo->AddFragment(std::make_shared<TFragment>(frag.second), channel);
 				if(fSettings->VerbosityLevel() > 2) {
 					std::cout<<"Added fragment "<<fFragment<<" to bgo:"<<std::endl;
 					fFragment->Print();
 				}
 				break;
 			case 2:
-				fLaBr->AddFragment(frag.second, channel);
+				fLaBr->AddFragment(std::make_shared<TFragment>(frag.second), channel);
 				if(fSettings->VerbosityLevel() > 2) {
 					std::cout<<"Added fragment "<<fFragment<<" to labr:"<<std::endl;
 					fFragment->Print();
 				}
 				break;
 			case 5:
-				fSceptar->AddFragment(frag.second, channel);
+				fSceptar->AddFragment(std::make_shared<TFragment>(frag.second), channel);
 				if(fSettings->VerbosityLevel() > 2) {
 					std::cout<<"Added fragment "<<fFragment<<" to sceptar:"<<std::endl;
 					fFragment->Print();
 				}
 				break;
 			case 7:
-				fPaces->AddFragment(frag.second, channel);
+				fPaces->AddFragment(std::make_shared<TFragment>(frag.second), channel);
 				if(fSettings->VerbosityLevel() > 2) {
 					std::cout<<"Added fragment "<<fFragment<<" to paces:"<<std::endl;
 					fFragment->Print();
 				}
 				break;
 			case 8:
-				fDescant->AddFragment(frag.second, channel);
+				fDescant->AddFragment(std::make_shared<TFragment>(frag.second), channel);
 				if(fSettings->VerbosityLevel() > 2) {
 					std::cout<<"Added fragment "<<fFragment<<" to descant:"<<std::endl;
 					fFragment->Print();
