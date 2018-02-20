@@ -85,4 +85,4 @@ tar:
 # -------------------- clean --------------------
 
 clean:
-	rm  -f $(NAME) lib$(NAME).so *.o $(NAME)Dictionary.cc $(NAME)Dictionary.h
+	@rm  -f $(NAME) lib$(NAME).so *.o $(NAME)Dictionary.cc $(NAME)Dictionary.h

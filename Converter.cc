@@ -273,7 +273,21 @@ bool Converter::Run() {
 								case 8030://red
 								case 8040://white
 								case 8050://yellow
+									{
 									mnemonic = Form("DSC%02dXN00X", fDetNumber);
+									// calculate cfd (0 - 8 ns) in 1/256 ns
+									int cfd = fTime*256e9;
+									cfd = cfd%1024;//1024 = 256 steps for 0 - 8 ns
+									// calculate remainder between 8 ns timestamp and 10 ns timestamp
+									int rem = fTime*1e9;
+									rem = rem%40;
+									if(rem < 8)       rem = 0;
+									else if(rem < 16) rem = 8;
+									else if(rem < 24) rem = 6;
+									else if(rem < 32) rem = 4;
+									else              rem = 2;
+									fFragments[address].SetCfd((rem << 22) | cfd);
+									}
 									break;
 								default: 
 									std::cerr<<"Sorry, unknown system ID "<<fSystemID<<std::endl;
