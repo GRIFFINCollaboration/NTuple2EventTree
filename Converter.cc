@@ -118,6 +118,36 @@ Converter::~Converter() {
 	}
 }
 
+int Converter::Cfd(TMnemonic::EDigitizer digitizer)
+{
+   switch(digitizer) {
+		case TMnemonic::EDigitizer::kGRF16:
+			// cfd is in 10/16th of a nanosecond, and replaces the lowest 18 bit of timestamp
+			// so multiply the time by 16e8, and use only the lowest 22 bit
+			return static_cast<int>(fTime*16e8)&0x3fffff;
+		case TMnemonic::EDigitizer::kGRF4G:
+			{
+			// calculate cfd (0 - 8 ns) in 1/256 ns
+			int cfd = fTime*256e9;
+			cfd = cfd%1024;//1024 = 256 steps for 0 - 8 ns
+			// calculate remainder between 8 ns timestamp and 10 ns timestamp
+			int rem = fTime*1e9;
+			rem = rem%40;
+			if(rem < 8)       rem = 0;
+			else if(rem < 16) rem = 8;
+			else if(rem < 24) rem = 6;
+			else if(rem < 32) rem = 4;
+			else              rem = 2;
+			return (rem << 22) | cfd;
+			}
+		case TMnemonic::EDigitizer::kTIG10:
+			// cfd is in 10/16th of a nanosecond, and replaces the lowest 23 bit of timestamp
+			return static_cast<int>(fTime*16e8)&0x7ffffff;
+		default:
+			return 0;
+	}
+}
+
 bool Converter::Run() {
 	int status;
 	int eventNumber = 0;
@@ -245,6 +275,7 @@ bool Converter::Run() {
 							switch(fSystemID) {
 								case 1000://griffin
 									mnemonic = Form("GRG%02d%cN00A", fDetNumber, crystalColor[fCryNumber]);
+									fFragments[address].SetCfd(Cfd(TMnemonic::EDigitizer::kGRF16));
 									break;
 								case 1010://left extension suppressor
 								case 1020://right extension suppressor
@@ -252,42 +283,34 @@ bool Converter::Run() {
 								case 1040://right casing suppressor
 								case 1050://back suppressor
 									mnemonic = Form("GRS%02d%cN00A", fDetNumber, crystalColor[fCryNumber]);
+									fFragments[address].SetCfd(Cfd(TMnemonic::EDigitizer::kGRF16));
 									break;
 								case 2000://LABr
 									mnemonic = Form("DAL%02dXN00X", fDetNumber);
+									fFragments[address].SetCfd(Cfd(TMnemonic::EDigitizer::kGRF16));
 									break;
 								case 3000://ancilliary BGO
 									mnemonic = Form("DAS%02dXN00X", fDetNumber);
+									fFragments[address].SetCfd(Cfd(TMnemonic::EDigitizer::kGRF16));
 									break;
 								case 5000://SCEPTAR
 									mnemonic = Form("SEP%02dXN00X", fDetNumber);
+									fFragments[address].SetCfd(Cfd(TMnemonic::EDigitizer::kGRF16));
 									break;
 								case 10://SPICE
 									mnemonic = Form("SPI%02dXN%0dX", fDetNumber, fCryNumber);//TODO: fix SPICE mnemonic
 									break;
 								case 50://PACES
 									mnemonic = Form("PAC%02dXN00A", fDetNumber);
+									fFragments[address].SetCfd(Cfd(TMnemonic::EDigitizer::kGRF16));
 									break;
 								case 8010://blue
 								case 8020://green
 								case 8030://red
 								case 8040://white
 								case 8050://yellow
-									{
 									mnemonic = Form("DSC%02dXN00X", fDetNumber);
-									// calculate cfd (0 - 8 ns) in 1/256 ns
-									int cfd = fTime*256e9;
-									cfd = cfd%1024;//1024 = 256 steps for 0 - 8 ns
-									// calculate remainder between 8 ns timestamp and 10 ns timestamp
-									int rem = fTime*1e9;
-									rem = rem%40;
-									if(rem < 8)       rem = 0;
-									else if(rem < 16) rem = 8;
-									else if(rem < 24) rem = 6;
-									else if(rem < 32) rem = 4;
-									else              rem = 2;
-									fFragments[address].SetCfd((rem << 22) | cfd);
-									}
+									fFragments[address].SetCfd(Cfd(TMnemonic::EDigitizer::kGRF4G));
 									break;
 								default: 
 									std::cerr<<"Sorry, unknown system ID "<<fSystemID<<std::endl;
