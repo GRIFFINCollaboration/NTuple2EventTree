@@ -29,6 +29,7 @@ public:
 	bool Run();
 
 private:
+	int  Cfd(TMnemonic::EDigitizer);
 	bool AboveThreshold(double, int);
 	bool InsideTimeWindow();
 	bool DescantNeutronDiscrimination();
