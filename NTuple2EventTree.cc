@@ -34,17 +34,8 @@ int main(int argc, char** argv) {
     //-------------------- check flags and arguments --------------------
     interface.CheckFlags(argc, argv);
 
-    bool missingFlags = false;
-    if(settingsFileName.empty()) {
-        std::cerr<<"Missing a settings file name!"<<std::endl;
-        missingFlags = true;
-    }
     if(inputFileNames.size() == 0) {
         std::cerr<<"Missing input file name(s)!"<<std::endl;
-        missingFlags = true;
-    }
-
-    if(missingFlags) {
         return 1;
     }
 

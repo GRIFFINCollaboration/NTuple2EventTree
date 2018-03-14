@@ -6,7 +6,11 @@
 Settings::Settings(std::string fileName, int verbosityLevel)
     : fVerbosityLevel(verbosityLevel) {
     TEnv env;
-    env.ReadFile(fileName.c_str(),kEnvLocal);
+	 if(fileName.empty()) {
+		 std::cout<<"Warning, no settings file provided, using default values!"<<std::endl;
+	 } else {
+		 env.ReadFile(fileName.c_str(),kEnvLocal);
+	 }
 
     fNtupleName = env.GetValue("NtupleName","/ntuple");
 
@@ -18,13 +22,15 @@ Settings::Settings(std::string fileName, int verbosityLevel)
 
 	 fKValue = env.GetValue("KValue", 700);
 
-    fWriteGriffinAddbackVector = env.GetValue("WriteGriffinAddbackVector",false);
+	 fDontSmearEnergy = env.GetValue("DontSmearEnergy", false);
 
-    fGriffinAddbackVectorLengthmm = env.GetValue("GriffinAddbackVectorLengthmm",105.0);
+    fWriteGriffinAddbackVector = env.GetValue("WriteGriffinAddbackVector", false);
 
-    fGriffinAddbackVectorDepthmm = env.GetValue("GriffinAddbackVectorDepthmm",45.0);
+    fGriffinAddbackVectorLengthmm = env.GetValue("GriffinAddbackVectorLengthmm", 105.0);
 
-    fGriffinAddbackVectorCrystalFaceDistancemm = env.GetValue("GriffinAddbackVectorCrystalFaceDistancemm",110.0);
+    fGriffinAddbackVectorDepthmm = env.GetValue("GriffinAddbackVectorDepthmm", 45.0);
+
+    fGriffinAddbackVectorCrystalFaceDistancemm = env.GetValue("GriffinAddbackVectorCrystalFaceDistancemm", 110.0);
 
     // Griffin
     fResolution[1000].resize(16);
