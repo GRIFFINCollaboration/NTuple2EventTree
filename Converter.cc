@@ -205,7 +205,11 @@ bool Converter::Run() {
 			fCryNumber = 0;
 		}
 		//create energy-resolution smeared energy
-		smearedEnergy = fRandom.Gaus(fDepEnergy,fSettings->Resolution(fSystemID,fDetNumber,fCryNumber,fDepEnergy));
+		if(fSettings->DontSmearEnergy()) {
+			smearedEnergy = fDepEnergy;
+		} else {
+			smearedEnergy = fRandom.Gaus(fDepEnergy,fSettings->Resolution(fSystemID,fDetNumber,fCryNumber,fDepEnergy));
+		}
 
 		if((fSettings->SortNumberOfEvents()==0)||(fSettings->SortNumberOfEvents()>=fEventNumber) ) {
 			//if the hit is above the threshold, we add it to the vector
@@ -261,8 +265,8 @@ bool Converter::Run() {
 						//fFragments[address].SetCcLong();
 						//fFragments[address].SetCcShort();
 						fFragments[address].SetCfd(0);
-						fFragments[address].SetCharge(smearedEnergy*700);
-						fFragments[address].SetKValue(700);
+						fFragments[address].SetCharge(smearedEnergy*fKValue);
+						fFragments[address].SetKValue(fKValue);
 						fFragments[address].SetMidasId(fFragmentTreeEntries);
 						// fTime is the time from the beginning of the event in seconds
 						fFragments[address].SetMidasTimeStamp(fTime); 

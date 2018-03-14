@@ -26,6 +26,8 @@ public:
 
     bool WriteGriffinAddbackVector() { return fWriteGriffinAddbackVector; }
 
+	 bool DontSmearEnergy() { return fDontSmearEnergy; }
+
     double GriffinAddbackVectorLengthmm() { return fGriffinAddbackVectorLengthmm; }
 
     double GriffinAddbackVectorDepthmm() { return fGriffinAddbackVectorDepthmm; }
@@ -67,6 +69,7 @@ private:
     bool fWriteTree;
 	 int fKValue;
     bool fWriteGriffinAddbackVector;
+	 bool fDontSmearEnergy;
 
     double fGriffinAddbackVectorLengthmm;
     double fGriffinAddbackVectorDepthmm;
