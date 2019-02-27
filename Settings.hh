@@ -36,25 +36,33 @@ public:
 
     double Resolution(int systemID, int detectorID, int crystalID, double en) {
         if(fResolution.find(systemID) != fResolution.end()) {
-            return fResolution[systemID].at(detectorID).at(crystalID).Eval(en);
+			  if(detectorID < fResolution[systemID].size() && crystalID < fResolution[systemID][detectorID].size()) {
+				  return fResolution[systemID][detectorID][crystalID].Eval(en);
+			  }
         }
         return 0.;
     }
     double Threshold(int systemID, int detectorID, int crystalID) {
         if(fThreshold.find(systemID) != fThreshold.end()) {
-            return fThreshold[systemID].at(detectorID).at(crystalID);
+			  if(detectorID < fThreshold[systemID].size() && crystalID < fThreshold[systemID][detectorID].size()) {
+				  return fThreshold[systemID][detectorID][crystalID];
+			  }
         }
         return 0.001;
     }
     double ThresholdWidth(int systemID, int detectorID, int crystalID) {
         if(fThresholdWidth.find(systemID) != fThresholdWidth.end()) {
-            return fThresholdWidth[systemID].at(detectorID).at(crystalID);
+			  if(detectorID < fThresholdWidth[systemID].size() && crystalID < fThresholdWidth[systemID][detectorID].size()) {
+				  return fThresholdWidth[systemID][detectorID][crystalID];
+			  }
         }
         return 0.;
     }
     double TimeWindow(int systemID, int detectorID, int crystalID) {
         if(fTimeWindow.find(systemID) != fTimeWindow.end()) {
-            return fTimeWindow[systemID].at(detectorID).at(crystalID);
+			  if(detectorID < fTimeWindow[systemID].size() && crystalID < fTimeWindow[systemID][detectorID].size()) {
+				  return fTimeWindow[systemID][detectorID][crystalID];
+			  }
         }
         return 0.;
     }
