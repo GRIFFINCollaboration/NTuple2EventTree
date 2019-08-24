@@ -35,7 +35,7 @@ public:
     double GriffinAddbackVectorCrystalFaceDistancemm() { return fGriffinAddbackVectorCrystalFaceDistancemm; }
 
     double Resolution(int systemID, int detectorID, int crystalID, double en) {
-        if(fResolution.find(systemID) != fResolution.end()) {
+        if(fResolution.find(systemID) != fResolution.end() && detectorID < fResolution[systemID].size() && crystalID < fResolution[systemID].at(detectorID).size()) {
             return fResolution[systemID].at(detectorID).at(crystalID).Eval(en);
         }
         return 0.;
