@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
     Settings settings(settingsFileName, verbosityLevel);
 
 	 //read run info
-	 TGRSIRunInfo* runInfo = new TGRSIRunInfo;
+	 TRunInfo* runInfo = new TRunInfo;
 	 if(!runInfoFile.empty()) {
 		 runInfo->ReadInfoFile(runInfoFile.c_str());
 	 }

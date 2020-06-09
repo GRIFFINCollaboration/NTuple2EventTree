@@ -9,7 +9,7 @@
 #include "TRandom3.h"
 #include "TVector3.h"
 
-#include "TGRSIRunInfo.h"
+#include "TRunInfo.h"
 #include "TChannel.h"
 #include "TFragment.h"
 #include "TGriffin.h"
@@ -23,13 +23,13 @@
 
 class Converter {
 public:
-	Converter(std::vector<std::string>& inputFileNames, const int& runNumber, const int& subRunNumber, const TGRSIRunInfo* runInfo, Settings* settings, bool writeFragmentTree);
+	Converter(std::vector<std::string>& inputFileNames, const int& runNumber, const int& subRunNumber, const TRunInfo* runInfo, Settings* settings, bool writeFragmentTree);
 	~Converter();
 
 	bool Run();
 
 private:
-	int  Cfd(TMnemonic::EDigitizer);
+	int  Cfd(EDigitizer);
 	bool AboveThreshold(double, int);
 	bool InsideTimeWindow();
 	bool DescantNeutronDiscrimination();
@@ -49,7 +49,7 @@ private:
 	int fFragmentTreeEntries;
 	int fRunNumber;
 	int fSubRunNumber;
-	const TGRSIRunInfo* fRunInfo;
+	const TRunInfo* fRunInfo;
 	int fKValue;
 	TRandom3 fRandom;
 

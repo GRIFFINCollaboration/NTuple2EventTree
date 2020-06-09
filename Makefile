@@ -30,11 +30,19 @@ LIBRARIES	= CommandLineInterface Utilities
 CC		      = gcc
 CXX         = g++
 CPPFLAGS 	= $(ROOTINC) $(INCLUDES) -fPIC
-CXXFLAGS	   = -std=gnu++0x -pedantic -Wall -Wno-long-long -g -O3 $(shell $(GRSI_CONFIG) --cflags)
+CXXFLAGS	   = -std=gnu++0x -pedantic -Wall -Wno-long-long -g -O3 $(shell $(GRSI_CONFIG) --cflags) -I$(GRSISYS)/GRSIData/include
 
 LDFLAGS		= -g -fPIC
 
-LDLIBS 		= -L$(LIB_DIR) -Wl,-rpath,/opt/gcc/lib64 $(ROOTLIBS) $(addprefix -l,$(LIBRARIES)) $(shell $(GRSI_CONFIG) --all-libs)
+LDLIBS 		= -L$(LIB_DIR) -Wl,-rpath,/opt/gcc/lib64 $(ROOTLIBS) $(addprefix -l,$(LIBRARIES)) $(shell $(GRSI_CONFIG) --all-libs --GRSIData-libs) -L/opt/local/lib
+
+ROOTCINT=$(shell command -v rootcint 2> /dev/null)
+ifndef $(ROOTCINT)
+   ROOTCINT=rootcling
+else
+   ROOTCINT=rootcint
+endif
+
 
 LOADLIBES = \
 	Converter.o \
@@ -71,7 +79,7 @@ $(NAME)Dictionary.o: $(NAME)Dictionary.cc
 	 $(CXX) -fPIC $(CXXFLAGS) $(CPPFLAGS) -c $<
 
 $(NAME)Dictionary.cc: $(DEPENDENCIES)
-	 rm -f $(NAME)Dictionary.cc $(NAME)Dictionary.h; rootcint -f $@ -c $(CPPFLAGS) $(DEPENDENCIES)
+	 rm -f $(NAME)Dictionary.cc $(NAME)Dictionary.h; $(ROOTCINT) -f $@ -c $(CPPFLAGS) $(DEPENDENCIES)
 
 # -------------------- tar ball --------------------
 
