@@ -35,14 +35,14 @@ public:
     double GriffinAddbackVectorCrystalFaceDistancemm() { return fGriffinAddbackVectorCrystalFaceDistancemm; }
 
     double Resolution(int systemID, int detectorID, int crystalID, double en) {
-        if(fResolution.find(systemID) != fResolution.end() && detectorID < fResolution[systemID].size() && crystalID < fResolution[systemID].at(detectorID).size()) {
+        if(fResolution.find(systemID) != fResolution.end() && detectorID < static_cast<int>(fResolution[systemID].size()) && crystalID < static_cast<int>(fResolution[systemID].at(detectorID).size())) {
             return fResolution[systemID].at(detectorID).at(crystalID).Eval(en);
         }
         return 0.;
     }
     double Threshold(int systemID, int detectorID, int crystalID) {
         if(fThreshold.find(systemID) != fThreshold.end()) {
-			  if(detectorID < fThreshold[systemID].size() && crystalID < fThreshold[systemID][detectorID].size()) {
+			  if(detectorID < static_cast<int>(fThreshold[systemID].size()) && crystalID < static_cast<int>(fThreshold[systemID][detectorID].size())) {
 				  return fThreshold[systemID][detectorID][crystalID];
 			  }
         }
@@ -50,7 +50,7 @@ public:
     }
     double ThresholdWidth(int systemID, int detectorID, int crystalID) {
         if(fThresholdWidth.find(systemID) != fThresholdWidth.end()) {
-			  if(detectorID < fThresholdWidth[systemID].size() && crystalID < fThresholdWidth[systemID][detectorID].size()) {
+			  if(detectorID < static_cast<int>(fThresholdWidth[systemID].size()) && crystalID < static_cast<int>(fThresholdWidth[systemID][detectorID].size())) {
 				  return fThresholdWidth[systemID][detectorID][crystalID];
 			  }
         }
@@ -58,7 +58,7 @@ public:
     }
     double TimeWindow(int systemID, int detectorID, int crystalID) {
         if(fTimeWindow.find(systemID) != fTimeWindow.end()) {
-			  if(detectorID < fTimeWindow[systemID].size() && crystalID < fTimeWindow[systemID][detectorID].size()) {
+			  if(detectorID < static_cast<int>(fTimeWindow[systemID].size()) && crystalID < static_cast<int>(fTimeWindow[systemID][detectorID].size())) {
 				  return fTimeWindow[systemID][detectorID][crystalID];
 			  }
         }
