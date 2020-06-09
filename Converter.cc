@@ -5,11 +5,11 @@
 
 #include "TMath.h"
 
-#include "TChannel.h"
+#include "TGRSIMnemonic.h"
 
 #include "Utilities.hh"
 
-Converter::Converter(std::vector<std::string>& inputFileNames, const int& runNumber, const int& subRunNumber, const TGRSIRunInfo* runInfo, Settings* settings, bool writeFragmentTree)
+Converter::Converter(std::vector<std::string>& inputFileNames, const int& runNumber, const int& subRunNumber, const TRunInfo* runInfo, Settings* settings, bool writeFragmentTree)
 	: fSettings(settings), fWriteFragmentTree(writeFragmentTree), fFragmentTreeEntries(0), fRunNumber(runNumber), fSubRunNumber(subRunNumber), fRunInfo(runInfo), fKValue(settings->KValue())
 {
 	//create TChain to read in all input files
