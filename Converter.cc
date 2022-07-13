@@ -292,6 +292,10 @@ bool Converter::Run() {
 						//check if the channel for this address exists, and if not create one and add it to the map
 						channel = TChannel::GetChannel(address);
 						if(channel == nullptr) {
+                            // simulation outputs detector numbers [0,15] but we want [1,16] for
+                            // assigning mnemonics
+                            ++fDetNumber;
+
 							switch(fSystemID) {
 								case 1000://griffin
 									mnemonic = Form("GRG%02d%cN00A", fDetNumber, crystalColor[fCryNumber]);
