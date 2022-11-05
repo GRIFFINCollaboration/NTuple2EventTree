@@ -9,7 +9,7 @@ This program was written by Vinzenz Bildstein.
  Installation
 -----------------------------------------
 
-Since NTuple2EventTree writes out event trees in the GRSISort format, you need to have GRSISort installed and properly setup (see https://github.com/GRIFFINCollaboration/GRSISort, and https://github.com/GRIFFINCollaboration/GRSIData).
+Since NTuple2EventTree writes out event trees in the GRSISort format, you need to have GRSISort installed and properly set up (see https://github.com/GRIFFINCollaboration/GRSISort, and https://github.com/GRIFFINCollaboration/GRSIData, both need to be installed).
 The NTuple2EventTree code requires the CommandLineInterface library (https://github.com/GRIFFINCollaboration/CommandLineInterface.git), please clone and compile this library first.
 The Makefile assumes that the code of the CommandLineInterface library is in ~/CommandLineInterface, if this is not the case, edit the Makefile to point COMM_DIR to the directory where the code is.
 The Makefile also assumes that you have a ~/lib directory where the shared-object libraries from the CommandLineInterface are installed.
