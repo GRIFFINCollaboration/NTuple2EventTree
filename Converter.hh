@@ -13,7 +13,7 @@
 #include "TChannel.h"
 #include "TFragment.h"
 #include "TGriffin.h"
-#include "TBgo.h"
+#include "TGriffinBgo.h"
 #include "TSceptar.h"
 #include "TPaces.h"
 #include "TLaBr.h"
@@ -74,7 +74,7 @@ private:
 	TGriffin* fGriffin;
 
 	// BGO
-	TBgo* fBgo;
+	TGriffinBgo* fGriffinBgo;
 
 	// LaBr
 	TLaBr* fLaBr;

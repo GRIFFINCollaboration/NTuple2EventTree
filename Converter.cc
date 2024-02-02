@@ -70,8 +70,8 @@ Converter::Converter(std::vector<std::string>& inputFileNames, const int& runNum
 	fEventTree.Branch("TGriffin", &fGriffin, fSettings->BufferSize());
 
 	// BGO
-	fBgo = new TBgo;
-	fEventTree.Branch("TBgo", &fBgo, fSettings->BufferSize());
+	fGriffinBgo = new TGriffinBgo;
+	fEventTree.Branch("TGriffinBgo", &fGriffinBgo, fSettings->BufferSize());
 
 	// LaBr
 	fLaBr = new TLaBr;
@@ -186,7 +186,7 @@ bool Converter::Run() {
 			fEventTree.Fill(); // Tree contains suppressed data
 
 			fGriffin->Clear();
-			fBgo->Clear();
+			fGriffinBgo->Clear();
 			fLaBr->Clear();
 			fSceptar->Clear();
 			fDescant->Clear();
@@ -400,7 +400,7 @@ void Converter::FillDetectors() {
 				break;
 			case 1:
 			case 3:
-				fBgo->AddFragment(std::make_shared<TFragment>(frag.second), channel);
+				fGriffinBgo->AddFragment(std::make_shared<TFragment>(frag.second), channel);
 				if(fSettings->VerbosityLevel() > 2) {
 					std::cout<<"Added fragment "<<fFragment<<" to bgo:"<<std::endl;
 					fFragment->Print();
